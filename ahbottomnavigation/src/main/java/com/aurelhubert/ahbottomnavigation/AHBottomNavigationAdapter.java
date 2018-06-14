@@ -1,8 +1,7 @@
 package com.aurelhubert.ahbottomnavigation;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.ColorInt;
-import android.support.annotation.MenuRes;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,13 +20,11 @@ public class AHBottomNavigationAdapter {
 	/**
 	 * Constructor
 	 *
-	 * @param activity
-	 * @param menuRes
 	 */
-	public AHBottomNavigationAdapter(Activity activity, @MenuRes int menuRes) {
-		PopupMenu popupMenu = new PopupMenu(activity, null);
+	public AHBottomNavigationAdapter(Context context, MenuItemsProvider provider) {
+		PopupMenu popupMenu = new PopupMenu(context, null);
 		mMenu = popupMenu.getMenu();
-		activity.getMenuInflater().inflate(menuRes, mMenu);
+		provider.onMenuCreated(mMenu);
 	}
 
 	/**

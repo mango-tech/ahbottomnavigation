@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.content.res.AppCompatResources;
@@ -20,7 +21,7 @@ public class AHBottomNavigationItem {
 	private String title = "";
 	private Drawable drawable;
 	private int color = Color.GRAY;
-	
+
 	private
 	@StringRes
 	int titleRes = 0;
@@ -30,6 +31,9 @@ public class AHBottomNavigationItem {
 	private
 	@ColorRes
 	int colorRes = 0;
+	private
+	@IdRes
+	int idRes = 0;
 	
 	/**
 	 * Constructor
@@ -66,6 +70,19 @@ public class AHBottomNavigationItem {
 		this.drawableRes = drawableRes;
 		this.colorRes = colorRes;
 	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param titleRes    String resource
+	 * @param drawableRes Drawable resource
+	 * @param colorRes    Color resource
+	 */
+	public AHBottomNavigationItem(@StringRes int titleRes, @DrawableRes int drawableRes, @ColorRes int colorRes, @IdRes int idRes) {
+		this.titleRes = titleRes;
+		this.drawableRes = drawableRes;
+		this.colorRes = colorRes;
+	}
 	
 	/**
 	 * Constructor
@@ -90,7 +107,7 @@ public class AHBottomNavigationItem {
 		this.drawable = drawable;
 		this.color = color;
 	}
-	
+
 	public String getTitle(Context context) {
 		if (titleRes != 0) {
 			return context.getString(titleRes);
@@ -144,5 +161,13 @@ public class AHBottomNavigationItem {
 	public void setDrawable(Drawable drawable) {
 		this.drawable = drawable;
 		this.drawableRes = 0;
+	}
+
+	public int getIdRes() {
+		return idRes;
+	}
+
+	public void setIdRes(@IdRes int idRes) {
+		this.idRes = idRes;
 	}
 }

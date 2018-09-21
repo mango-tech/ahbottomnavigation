@@ -15,6 +15,7 @@ import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -1604,7 +1605,15 @@ public class AHBottomNavigation extends FrameLayout {
 	public void setItemDisableColor(@ColorInt int itemDisableColor) {
 		this.itemDisableColor = itemDisableColor;
 	}
-	
+
+	public void setCurrentItemId(@IdRes int idRes) {
+		items.get(currentItem).setIdRes(idRes);
+	}
+
+	public int getCurrentItemId() {
+		return items.get(currentItem).getIdRes();
+	}
+
 	////////////////
 	// INTERFACES //
 	////////////////

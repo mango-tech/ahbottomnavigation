@@ -54,11 +54,10 @@ public class AHBottomNavigationAdapter {
 				MenuItem item = mMenu.getItem(i);
 				AHBottomNavigationItem navigationItem;
 				if (colors != null && colors.length >= mMenu.size() && colors[i] != 0) {
-					navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon(), colors[i]);
+					navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon(), colors[i], item.getItemId());
 				} else {
-					navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon());
+					navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon(), item.getItemId());
 				}
-				navigationItem.setIdRes(item.getItemId());
 				navigationItems.add(navigationItem);
 			}
 			ahBottomNavigation.removeAllItems();

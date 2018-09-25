@@ -44,6 +44,7 @@ import com.aurelhubert.ahbottomnavigation.notification.AHNotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 /**
@@ -1606,12 +1607,19 @@ public class AHBottomNavigation extends FrameLayout {
 		this.itemDisableColor = itemDisableColor;
 	}
 
-	public void setCurrentItemId(@IdRes int idRes) {
-		items.get(currentItem).setIdRes(idRes);
+	public void setCurrentItemId(@IdRes int itemId) {
+		final ListIterator<AHBottomNavigationItem> listIterator = items.listIterator();
+		while (listIterator.hasNext()) {
+			final AHBottomNavigationItem item = listIterator.next();
+			if (item.getItemId() == itemId) {
+				setCurrentItem(listIterator.previousIndex(), false);
+				break;
+			}
+		}
 	}
 
 	public int getCurrentItemId() {
-		return items.get(currentItem).getIdRes();
+		return items.get(currentItem).getItemId();
 	}
 
 	////////////////

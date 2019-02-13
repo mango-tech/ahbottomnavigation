@@ -91,6 +91,7 @@ public class AHBottomNavigation extends FrameLayout {
 	private Boolean[] itemsEnabledStates = {true, true, true, true, true};
 	private boolean isBehaviorTranslationSet = false;
 	private int currentItem = 0;
+	private int currentItemId = 0;
 	private int currentColor = 0;
 	private boolean behaviorTranslationEnabled = true;
 	private boolean needHideBottomNavigation = false;
@@ -736,6 +737,7 @@ public class AHBottomNavigation extends FrameLayout {
 		}
 
 		currentItem = itemIndex;
+		currentItemId = items.get(getCurrentItem()).getItemId();
 		if (currentItem > 0 && currentItem < items.size()) {
 			currentColor = items.get(currentItem).getColor(context);
 		} else if (currentItem == CURRENT_ITEM_NONE) {
@@ -869,6 +871,7 @@ public class AHBottomNavigation extends FrameLayout {
 		}
 
 		currentItem = itemIndex;
+		currentItemId = items.get(getCurrentItem()).getItemId();
 		if (currentItem > 0 && currentItem < items.size()) {
 			currentColor = items.get(currentItem).getColor(context);
 		} else if (currentItem == CURRENT_ITEM_NONE) {
@@ -984,8 +987,23 @@ public class AHBottomNavigation extends FrameLayout {
 		if (items.size() > MAX_ITEMS || (this.items.size() + items.size()) > MAX_ITEMS) {
 			Log.w(TAG, "The items list should not have more than 5 items");
 		}
+
+		// Checks if current item is also in the new collection of items and it selects this.
+		// By default it selects first position
+		int targetPosition = 0;
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getItemId() == currentItemId) {
+				targetPosition = i;
+				break;
+			}
+		}
+
 		this.items.addAll(items);
 		createItems();
+
+		// Set item selected at target position
+		updateItems(targetPosition, false);
+
 	}
 
 	/**
@@ -1619,7 +1637,7 @@ public class AHBottomNavigation extends FrameLayout {
 	}
 
 	public int getCurrentItemId() {
-		return items.get(currentItem).getItemId();
+		return currentItemId;
 	}
 
 	////////////////

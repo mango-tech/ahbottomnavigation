@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
+
+import com.aurelhubert.ahbottomnavigation.MenuItemsProvider;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
@@ -69,12 +73,17 @@ public class DemoActivity extends AppCompatActivity {
 
 		if (useMenuResource) {
 			tabColors = getApplicationContext().getResources().getIntArray(R.array.tab_colors);
-			navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
+			navigationAdapter = new AHBottomNavigationAdapter(this, new MenuItemsProvider() {
+				@Override
+				public void onMenuCreated(Menu menu) {
+					getMenuInflater().inflate(R.menu.bottom_navigation_menu_3, menu);
+				}
+			});
 			navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
 		} else {
-			AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_apps_black_24dp, R.color.color_tab_1);
-			AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_maps_local_bar, R.color.color_tab_2);
-			AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.ic_maps_local_restaurant, R.color.color_tab_3);
+			AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.tab_1), R.drawable.ic_apps_black_24dp, R.color.color_tab_1, R.id.option_1);
+			AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.tab_2), R.drawable.ic_maps_local_bar, R.color.color_tab_2, R.id.option_2);
+			AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.tab_3), R.drawable.ic_maps_local_restaurant, R.color.color_tab_3, R.id.option_3);
 
 			bottomNavigationItems.add(item1);
 			bottomNavigationItems.add(item2);
@@ -241,11 +250,21 @@ public class DemoActivity extends AppCompatActivity {
 
 		if (useMenuResource) {
 			if (addItems) {
-				navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_5);
+				navigationAdapter = new AHBottomNavigationAdapter(this, new MenuItemsProvider() {
+					@Override
+					public void onMenuCreated(Menu menu) {
+						getMenuInflater().inflate(R.menu.bottom_navigation_menu_5, menu);
+					}
+				});
 				navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
 				bottomNavigation.setNotification("1", 3);
 			} else {
-				navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.bottom_navigation_menu_3);
+				navigationAdapter = new AHBottomNavigationAdapter(this, new MenuItemsProvider() {
+					@Override
+					public void onMenuCreated(Menu menu) {
+						getMenuInflater().inflate(R.menu.bottom_navigation_menu_3, menu);
+					}
+				});
 				navigationAdapter.setupWithBottomNavigation(bottomNavigation, tabColors);
 			}
 

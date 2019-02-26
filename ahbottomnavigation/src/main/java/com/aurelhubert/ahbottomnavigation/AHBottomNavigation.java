@@ -12,14 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -40,10 +32,21 @@ import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotificationHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
 /**
  * AHBottomNavigationLayout
@@ -89,6 +92,7 @@ public class AHBottomNavigation extends FrameLayout {
 	private Boolean[] itemsEnabledStates = {true, true, true, true, true};
 	private boolean isBehaviorTranslationSet = false;
 	private int currentItem = 0;
+	private int currentItemId = 0;
 	private int currentColor = 0;
 	private boolean behaviorTranslationEnabled = true;
 	private boolean needHideBottomNavigation = false;
@@ -734,6 +738,7 @@ public class AHBottomNavigation extends FrameLayout {
 		}
 
 		currentItem = itemIndex;
+		currentItemId = items.get(getCurrentItem()).getItemId();
 		if (currentItem > 0 && currentItem < items.size()) {
 			currentColor = items.get(currentItem).getColor(context);
 		} else if (currentItem == CURRENT_ITEM_NONE) {
@@ -867,6 +872,7 @@ public class AHBottomNavigation extends FrameLayout {
 		}
 
 		currentItem = itemIndex;
+		currentItemId = items.get(getCurrentItem()).getItemId();
 		if (currentItem > 0 && currentItem < items.size()) {
 			currentColor = items.get(currentItem).getColor(context);
 		} else if (currentItem == CURRENT_ITEM_NONE) {
@@ -982,8 +988,23 @@ public class AHBottomNavigation extends FrameLayout {
 		if (items.size() > MAX_ITEMS || (this.items.size() + items.size()) > MAX_ITEMS) {
 			Log.w(TAG, "The items list should not have more than 5 items");
 		}
+
+		// Checks if current item is also in the new collection of items and it selects this.
+		// By default it selects first position
+		int targetPosition = 0;
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getItemId() == currentItemId) {
+				targetPosition = i;
+				break;
+			}
+		}
+
 		this.items.addAll(items);
 		createItems();
+
+		// Set item selected at target position
+		updateItems(targetPosition, false);
+
 	}
 
 	/**
@@ -1604,7 +1625,22 @@ public class AHBottomNavigation extends FrameLayout {
 	public void setItemDisableColor(@ColorInt int itemDisableColor) {
 		this.itemDisableColor = itemDisableColor;
 	}
-	
+
+	public void setCurrentItemId(@IdRes int itemId) {
+		final ListIterator<AHBottomNavigationItem> listIterator = items.listIterator();
+		while (listIterator.hasNext()) {
+			final AHBottomNavigationItem item = listIterator.next();
+			if (item.getItemId() == itemId) {
+				setCurrentItem(listIterator.previousIndex(), false);
+				break;
+			}
+		}
+	}
+
+	public int getCurrentItemId() {
+		return currentItemId;
+	}
+
 	////////////////
 	// INTERFACES //
 	////////////////

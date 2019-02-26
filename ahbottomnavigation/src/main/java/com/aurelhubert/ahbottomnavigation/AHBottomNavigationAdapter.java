@@ -1,14 +1,14 @@
 package com.aurelhubert.ahbottomnavigation;
 
-import android.app.Activity;
-import android.support.annotation.ColorInt;
-import android.support.annotation.MenuRes;
-import android.support.v7.widget.PopupMenu;
+import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.widget.PopupMenu;
 
 /**
  *
@@ -21,13 +21,11 @@ public class AHBottomNavigationAdapter {
 	/**
 	 * Constructor
 	 *
-	 * @param activity
-	 * @param menuRes
 	 */
-	public AHBottomNavigationAdapter(Activity activity, @MenuRes int menuRes) {
-		PopupMenu popupMenu = new PopupMenu(activity, null);
+	public AHBottomNavigationAdapter(Context context, MenuItemsProvider provider) {
+		PopupMenu popupMenu = new PopupMenu(context, null);
 		mMenu = popupMenu.getMenu();
-		activity.getMenuInflater().inflate(menuRes, mMenu);
+		provider.onMenuCreated(mMenu);
 	}
 
 	/**
@@ -55,13 +53,13 @@ public class AHBottomNavigationAdapter {
 		if (mMenu != null) {
 			for (int i = 0; i < mMenu.size(); i++) {
 				MenuItem item = mMenu.getItem(i);
+				AHBottomNavigationItem navigationItem;
 				if (colors != null && colors.length >= mMenu.size() && colors[i] != 0) {
-					AHBottomNavigationItem navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon(), colors[i]);
-					navigationItems.add(navigationItem);
+					navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon(), colors[i], item.getItemId());
 				} else {
-					AHBottomNavigationItem navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon());
-					navigationItems.add(navigationItem);
+					navigationItem = new AHBottomNavigationItem(String.valueOf(item.getTitle()), item.getIcon(), item.getItemId());
 				}
+				navigationItems.add(navigationItem);
 			}
 			ahBottomNavigation.removeAllItems();
 			ahBottomNavigation.addItems(navigationItems);

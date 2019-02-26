@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.content.res.AppCompatResources;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 
 /**
  * AHBottomNavigationItem
@@ -20,7 +22,7 @@ public class AHBottomNavigationItem {
 	private String title = "";
 	private Drawable drawable;
 	private int color = Color.GRAY;
-	
+
 	private
 	@StringRes
 	int titleRes = 0;
@@ -30,6 +32,8 @@ public class AHBottomNavigationItem {
 	private
 	@ColorRes
 	int colorRes = 0;
+
+	@IdRes private final int itemId;
 	
 	/**
 	 * Constructor
@@ -37,9 +41,10 @@ public class AHBottomNavigationItem {
 	 * @param title    Title
 	 * @param resource Drawable resource
 	 */
-	public AHBottomNavigationItem(String title, @DrawableRes int resource) {
+	public AHBottomNavigationItem(String title, @DrawableRes int resource, @IdRes int itemId) {
 		this.title = title;
 		this.drawableRes = resource;
+		this.itemId = itemId;
 	}
 	
 	/**
@@ -48,36 +53,26 @@ public class AHBottomNavigationItem {
 	 * @param color    Background color
 	 */
 	@Deprecated
-	public AHBottomNavigationItem(String title, @DrawableRes int resource, @ColorRes int color) {
+	public AHBottomNavigationItem(String title, @DrawableRes int resource, @ColorRes int color, @IdRes int itemId) {
 		this.title = title;
 		this.drawableRes = resource;
 		this.color = color;
+		this.itemId = itemId;
 	}
-	
-	/**
-	 * Constructor
-	 *
-	 * @param titleRes    String resource
-	 * @param drawableRes Drawable resource
-	 * @param colorRes    Color resource
-	 */
-	public AHBottomNavigationItem(@StringRes int titleRes, @DrawableRes int drawableRes, @ColorRes int colorRes) {
-		this.titleRes = titleRes;
-		this.drawableRes = drawableRes;
-		this.colorRes = colorRes;
-	}
-	
+
+
 	/**
 	 * Constructor
 	 *
 	 * @param title    String
 	 * @param drawable Drawable
 	 */
-	public AHBottomNavigationItem(String title, Drawable drawable) {
+	public AHBottomNavigationItem(String title, Drawable drawable, @IdRes int itemId) {
 		this.title = title;
 		this.drawable = drawable;
+		this.itemId = itemId;
 	}
-	
+
 	/**
 	 * Constructor
 	 *
@@ -85,12 +80,13 @@ public class AHBottomNavigationItem {
 	 * @param drawable Drawable
 	 * @param color    Color
 	 */
-	public AHBottomNavigationItem(String title, Drawable drawable, @ColorInt int color) {
+	public AHBottomNavigationItem(String title, Drawable drawable, @ColorInt int color, @IdRes int itemId) {
 		this.title = title;
 		this.drawable = drawable;
 		this.color = color;
+		this.itemId = itemId;
 	}
-	
+
 	public String getTitle(Context context) {
 		if (titleRes != 0) {
 			return context.getString(titleRes);
@@ -144,5 +140,9 @@ public class AHBottomNavigationItem {
 	public void setDrawable(Drawable drawable) {
 		this.drawable = drawable;
 		this.drawableRes = 0;
+	}
+
+	public int getItemId() {
+		return itemId;
 	}
 }

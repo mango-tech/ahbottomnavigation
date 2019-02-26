@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group = "com.github.inqbarna"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -22,5 +24,5 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:design:${supportLibsVersion}"
+    implementation 'com.google.android.material:material:1.0.0'
 }

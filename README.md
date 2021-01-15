@@ -1,5 +1,8 @@
 
-# AHBottomNavigation
+# DEPRECATED
+This library is not maintained anymore and there will be no further releases. Use BottomNavigationView instead of this library.
+
+# ~~AHBottomNavigation~~
 Library to implement the Bottom Navigation component from Material Design guidelines (minSdkVersion=14).
 
 ## Demo
